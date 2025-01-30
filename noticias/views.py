@@ -1,12 +1,18 @@
+from django.views import View
+from django.http import JsonResponse
 import uuid
 import json
 from datetime import datetime
-from django.http import JsonResponse
 
 banco = {}
 
-def adicionar_noticia(request):
-    if request.method == 'POST':
+class NoticiaView(View):
+    def get(self, request):
+        # Lista todas as notícias
+        return JsonResponse(list(banco.values()), safe=False)
+
+    def post(self, request):
+        # Adiciona uma nova notícia
         try:
             data = json.loads(request.body)
             identificador = uuid.uuid4().hex
@@ -16,37 +22,42 @@ def adicionar_noticia(request):
                 'titulo': data['titulo'],
                 'conteudo': data['conteudo'],
                 'autor': data['autor'],
-                'data_criacao': data_criacao
+                'data_publicacao': data_criacao
             }
             return JsonResponse(banco[identificador], status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'JSON inválido'}, status=400)
-    else:
-        return JsonResponse({'error': 'Método não permitido, use POST para adicionar notícias'}, status=405)
 
-def obter_noticia(request, id):
-    if id in banco:
-        return JsonResponse(banco[id])
-    return JsonResponse({'error': 'Notícia não encontrada'}, status=404)
-
-def listar_todas_noticias(request):
-    return JsonResponse(banco, safe=False)
-
-def editar_noticia(request, id):
-    if request.method == 'PUT' or request.method == 'PATCH':
+class NoticiaDetailView(View):
+    def get(self, request, id):
+        # Obtém uma notícia específica por ID
         if id in banco:
-            data = request.data
-            banco[id].update({
-                'titulo': data['titulo'],
-                'conteudo': data['conteudo'],
-                'autor': data['autor'],
-                'data_criacao': banco[id]['data_criacao']
-            })
             return JsonResponse(banco[id])
         return JsonResponse({'error': 'Notícia não encontrada'}, status=404)
 
-def remover_noticia(request, id):
-    if id in banco:
-        del banco[id]
-        return JsonResponse({'message': 'Notícia removida com sucesso'}, status=204)
-    return JsonResponse({'error': 'Notícia não encontrada'}, status=404)
+    def put(self, request, id):
+        # Atualiza uma notícia existente por ID
+        if id in banco:
+            try:
+                data = json.loads(request.body)
+                banco[id].update({
+                    'titulo': data['titulo'],
+                    'conteudo': data['conteudo'],
+                    'autor': data['autor'],
+                    'data_publicacao': banco[id]['data_publicacao']  # Mantém a data de publicação original
+                })
+                return JsonResponse(banco[id])
+            except json.JSONDecodeError:
+                return JsonResponse({'error': 'JSON inválido'}, status=400)
+        return JsonResponse({'error': 'Notícia não encontrada'}, status=404)
+
+    def patch(self, request, id):
+        # Atualiza parcialmente uma notícia existente por ID
+        return self.put(request, id)  # Reutiliza o método put para patch
+
+    def delete(self, request, id):
+        # Remove uma notícia existente por ID
+        if id in banco:
+            del banco[id]
+            return JsonResponse({'message': 'Notícia removida com sucesso'}, status=200)
+        return JsonResponse({'error': 'Notícia não encontrada'}, status=404)

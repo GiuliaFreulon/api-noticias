@@ -1,10 +1,15 @@
+# from django.urls import path
+# from .views import NoticiaDetailView, NoticiaView
+#
+# urlpatterns = [
+#     path('noticias/', NoticiaView.as_view(), name='noticia-list-create'),
+#     path('noticias/<str:id>/', NoticiaDetailView.as_view(), name='noticia-detail'),
+# ]
+
 from django.urls import path
-from . import views
+from .views import NoticiaDetailView, NoticiaView
 
 urlpatterns = [
-    path('noticias/adicionar/', views.adicionar_noticia, name='adicionar-noticia'),
-    path('noticias/', views.listar_todas_noticias, name='noticia-list'),
-    path('noticias/<str:id>/', views.obter_noticia, name='noticia-detail'),
-    path('noticias/editar/<str:id>/', views.editar_noticia, name='editar-noticia'),
-    path('noticias/remover/<str:id>/', views.remover_noticia, name='remover-noticia'),
+    path('noticias/', NoticiaView.as_view(), name='noticia-list-create'),
+    path('noticias/<str:id>/', NoticiaDetailView.as_view(), name='noticia-detail'),
 ]
