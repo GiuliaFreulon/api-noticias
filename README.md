@@ -6,8 +6,10 @@
 - O projeto possui 11 testes unitários
 - O projeto está dockerizado para facilitar a configuração e a replicação
 
-## Pré-requisitos
-- Python 3.12
+## Tecnologias Utilizadas
+- Python
+- Django
+- Django REST Framework
 - Docker
 - Docker Compose
 
@@ -31,25 +33,53 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-## Endpoints
+### Testar a API
+<p>É possível testar a API utilizando ferramentas como Postman ou cURL.
+<p>No Postman, por exemplo:
+
 - **Listar todas as notícias**
-<p>GET /noticias/
+<p>GET http://localhost:8000/api/noticias/
 
 - **Obter uma notícia específica por ID**
-<p>GET /noticias/{id}/
+<p>GET http://localhost:8000/api/noticias/<ID>
 
 - **Criar uma nova notícia**
-<p>POST /noticias/
+<p>POST http://localhost:8000/api/noticias/
+<p>No Body um JSON:
+  {
+      "titulo": "Título da Notícia",
+      "conteudo": "Conteúdo da Notícia",
+      "autor": "Autor da Notícia"
+  }
 
 - **Atualizar uma notícia existente**
-<p>PUT /noticias/{id}/ 
+<p>PUT "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/<ID>
 <p>ou
-<p>PATCH /noticias/{id}/
+<p>PATCH "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/<ID>
+
+<p>No Body um JSON:
+  {
+      "titulo": "Título da Notícia Atualizada",
+      "conteudo": "Conteúdo da Notícia Atualizada",
+      "autor": "Autor da Notícia Atualizada"
+  }
 
 - **Remover uma notícia**
-<p>DELETE /noticias/{id}/
+<p>DELETE http://localhost:8000/api/noticias/<ID>
 
-## Rodar os testes
+### Rodar os testes
 ```bash
 python manage.py test
 ```
+
+## Dockerização
+### Construir imagem Docker
+```bash
+docker-compose build
+```
+### Rodar os Contêineres
+```bash
+docker-compose up
+```
+
+<p>A aplicação estará disponível em http://localhost:8000/api/noticias/
