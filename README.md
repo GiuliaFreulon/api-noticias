@@ -17,16 +17,19 @@
 ```bash
 git clone https://github.com/GiuliaFreulon/api-noticias
 cd api-noticias
+```
 
 ### Configurar o Ambiente Virtual
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # No Windows, use .venv\Scripts\activate
 pip install -r requirements.txt
+```
 
 ### Rodar a Aplicação
 ```bash
 python manage.py runserver
+```
 
 ## Endpoints
 - **Listar todas as notícias**
@@ -49,3 +52,4 @@ python manage.py runserver
 ## Rodar os testes
 ```bash
 python manage.py test
+```
