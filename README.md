@@ -41,7 +41,7 @@ python manage.py runserver
 <p>GET http://localhost:8000/api/noticias/
 
 - **Obter uma notícia específica por ID**
-<p>GET http://localhost:8000/api/noticias/<ID>
+<p>GET http://localhost:8000/api/noticias/{id}
 
 - **Criar uma nova notícia**
 <p>POST http://localhost:8000/api/noticias/
@@ -53,9 +53,9 @@ python manage.py runserver
   }
 
 - **Atualizar uma notícia existente**
-<p>PUT "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/<ID>
+<p>PUT "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/{id}
 <p>ou
-<p>PATCH "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/<ID>
+<p>PATCH "Content-Type: application/json" -d '{"titulo": "Atualizado", "conteudo": "Conteúdo Atualizado", "autor": "Autor"}' http://localhost:8000/api/noticias/{id}
 
 <p>No Body um JSON:
   {
@@ -65,7 +65,7 @@ python manage.py runserver
   }
 
 - **Remover uma notícia**
-<p>DELETE http://localhost:8000/api/noticias/<ID>
+<p>DELETE http://localhost:8000/api/noticias/{id}
 
 ### Rodar os testes
 ```bash
